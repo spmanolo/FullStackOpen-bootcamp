@@ -1,0 +1,5 @@
+{
+    "editor.guides.bracketPairs": true,
+    "breadcrumbs.showArrays": true,
+    "breadcrumbs.enabled": false
+}
