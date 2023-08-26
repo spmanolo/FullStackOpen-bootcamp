@@ -1,33 +1,34 @@
-export default function PersonForm({
-  newName,
-  newPhone,
-  onNewNameChange,
-  onNewPhoneChange,
-  handleAddName
+export function PersonForm({
+  newPerson,
+  onNewPersonChange,
+  handleAddPerson
 }) {
 
   return (
-    <form>
-      <label>
-        name: {' '}
-        <input
-          type='text'
-          onChange={(e) => onNewNameChange(e.target.value)}
-          value={newName}
-        />
-      </label>
-      <br />
-      <label>
-        phone: {' '}
-        <input
-          type='text'
-          onChange={(e) => onNewPhoneChange(e.target.value)}
-          value={newPhone}
-        />
-      </label>
-      <div>
-        <button type="submit" onClick={handleAddName}>add</button>
-      </div>
-    </form>
+    <div>
+      <h2>add a new</h2>
+
+      <form>
+        <label>
+          name: {' '}
+          <input
+            type='text'
+            onChange={(e) => onNewPersonChange({ ...newPerson, name: e.target.value })}
+          />
+        </label>
+        <br />
+        <label>
+          number: {' '}
+          <input
+            type='text'
+            onChange={(e) => onNewPersonChange({ ...newPerson, number: e.target.value })}
+          />
+        </label>
+        <div>
+          <button type="submit" onClick={handleAddPerson}>add</button>
+        </div>
+      </form>
+    </div>
+
   )
 }

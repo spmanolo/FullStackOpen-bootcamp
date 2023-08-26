@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Note from './Note.js'
-import axios from 'axios'
+import { create as createNote, getAll as getAllNotes, update as changeNote } from './services/notes'
 
 export default function App() {
   // if (typeof notes === 'undefined' || notes.length === 0) {
@@ -11,11 +11,19 @@ export default function App() {
   const [newNote, setNewNote] = useState('')
   const [loading, setLoading] = useState(false)
 
+  function toggleImportanceOf(id) {
+    const note = notes.find(n => n.id == id)
+    const changedNote = { ...note, important: !note.important }
+
+    changeNote(changedNote).then(newNote => {
+      setNotes(notes.map(note => note.id !== id ? note : newNote))
+    })
+  }
+
   useEffect(() => {
     setLoading(true)
-    axios.get('https://jsonplaceholder.typicode.com/posts').then(response => {
-      const { data } = response
-      setNotes(data)
+    getAllNotes().then(notes => {
+      setNotes(notes)
       setLoading(false)
     })
   }, [])
@@ -26,10 +34,18 @@ export default function App() {
     const noteToAddToState = {
       id: notes.length + 1,
       title: newNote,
-      body: newNote
+      body: newNote,
+      important: Math.random() % 2
     }
 
-    setNotes([...notes, noteToAddToState])
+    createNote(noteToAddToState)
+      .then(newNote => {
+        setNotes(prevNotes => prevNotes.concat(newNote))
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+
     setNewNote('')  // refrescar el searchbar
   }
 
@@ -47,8 +63,7 @@ export default function App() {
       <ol>
         {notes
           .map((note) => {
-            // return <Note key={note.id} content={note.content} date={note.date} />
-            return <Note key={note.id} {...note} />
+            return <Note key={note.id} note={note} toggleImportance={() => toggleImportanceOf(note.id)} />
           })}
       </ol>
     </div>

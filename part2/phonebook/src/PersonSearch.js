@@ -1,4 +1,4 @@
-export default function Filter({ filterText, onFilterTextChange }) {
+export function PersonSearch({ filterText, onFilterTextChange }) {
   return (
     < label >
       filter shown whith
