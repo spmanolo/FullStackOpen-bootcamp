@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react'
-import { getAll as getPersons, create as createPerson, remove as deletePerson } from './services/persons'
+import {
+  getAll as getPersons,
+  create as createPerson,
+  remove as deletePerson,
+  update as changePerson
+} from './services/persons'
 import { PersonForm } from './PersonForm.js'
 import { Person } from './Person.js'
 
@@ -18,24 +23,42 @@ export function Persons({ filterText }) {
     event.preventDefault()
 
     let coincidencia = false
+    let id = 0
 
     persons.forEach(person => {
-      if (person.name === newPerson.name)
+      if (person.name === newPerson.name) {
         coincidencia = true
+        id = person.id
+      }
     })
 
     if (!coincidencia) {
-      createPerson(newPerson).then(person => {
-        setPersons(prevPersons => prevPersons.concat(person))
-      })
+      const newPersonToAdd = {
+        name: newPerson.name,
+        number: newPerson.number
+      }
+      createPerson(newPersonToAdd)
+        .then(person => {
+          setPersons(prevPersons => prevPersons.concat(person))
+        })
       setNewPerson('')
-    } else {
-      alert(newPerson.name + ' is already added to phonebook')
+    } else if (window.confirm(newPerson.name + ' is already added to phonebook, replace the old number with a new one?')) {
+      const person = persons.find(p => p.id === id)
+      const changedPerson = { ...person, number: newPerson.number }
+
+      changePerson(changedPerson).then(newP => {
+        setPersons(persons.map(p => p.id !== changedPerson.id ? p : newP))
+      })
     }
   }
 
+
   function handleDeletePerson(id) {
-    deletePerson(id)
+    const person = persons.find(p => p.id === id)
+    if (window.confirm('Do you want to remove ' + person.name + ' from the phonebook?')) {
+      deletePerson(id)
+      setNewPerson('')
+    }
   }
 
   const listOfPersons = persons

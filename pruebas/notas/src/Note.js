@@ -1,4 +1,4 @@
-export default function Note({ note, toggleImportance }) {
+export function Note({ note, toggleImportance }) {
   const { title, body, important } = note
 
   const label = important
@@ -6,7 +6,7 @@ export default function Note({ note, toggleImportance }) {
     : 'make important'
 
   return (
-    <li>
+    <li className="note">
       <p>{title}</p>
       <small>{body} <br /> </small>
       <small>{important ? 'Importante' : 'No importante'}</small>

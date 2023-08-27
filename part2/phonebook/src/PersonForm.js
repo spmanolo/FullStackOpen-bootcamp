@@ -8,7 +8,7 @@ export function PersonForm({
     <div>
       <h2>add a new</h2>
 
-      <form>
+      <form onSubmit={handleAddPerson}>
         <label>
           name: {' '}
           <input
@@ -25,10 +25,10 @@ export function PersonForm({
           />
         </label>
         <div>
-          <button type="submit" onClick={handleAddPerson}>add</button>
+          <button>add</button>
         </div>
       </form>
-    </div>
+    </div >
 
   )
 }

@@ -19,7 +19,15 @@ export function create(person) {
 export function remove(id) {
   return axios.delete(URL + id).then(response => {
     const { data } = response
-    console.log(data);
     return data
   })
+}
+
+export function update(changedPerson) {
+  return axios
+    .put(URL + changedPerson.id, changedPerson)
+    .then(res => {
+      const { data } = res
+      return data
+    })
 }
