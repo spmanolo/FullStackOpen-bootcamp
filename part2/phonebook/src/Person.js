@@ -48,7 +48,7 @@ export function PersonForm({ newPerson, handleAddPerson }) {
 export function PersonList({ filteredList, handleDeletePerson }) {
   return (
     filteredList.map(person => {
-      return <Person key={person.id}
+      return <Person key={person.number}
         person={person}
         handleDeletePerson={handleDeletePerson} />
     })
@@ -59,7 +59,9 @@ export function Person({ person, handleDeletePerson }) {
   return (
     <div>
       {person.name + ' ' + person.number}
-      <button type='submit' onClick={() => handleDeletePerson(person.id)}>delete</button>
+      <button type='submit' onClick={() => {
+        handleDeletePerson(person.id)
+      }}>delete</button>
     </div>
   )
 }

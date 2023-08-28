@@ -53,7 +53,7 @@ export function Persons({ filterText, onFilterTextChange }) {
             setMessage(null)
           }, 4000)
         })
-      setNewPerson('')
+      setNewPerson({ name: '', number: '' })
     } else if (window.confirm(newPersonToAdd.name + ' is already added to phonebook, replace the old number with a new one?')) {
       const person = persons.find(p => p.id === id)
       const changedPerson = { ...person, number: newPersonToAdd.number }
@@ -76,13 +76,20 @@ export function Persons({ filterText, onFilterTextChange }) {
 
   function handleDeletePerson(id) {
     const person = persons.find(p => p.id === id)
+    const filteredPersons = persons.filter(person => person.id !== id)
+
     if (window.confirm('Do you want to remove ' + person.name + ' from the phonebook?')) {
       deletePerson(id)
       setNewPerson('')
+      setPersons(filteredPersons)
     }
   }
 
-  const filterListOfPersons = persons.filter(person => person.name.toLowerCase().includes(filterText.toLowerCase()))
+  const filterListOfPersons = filterText !== null && filterText.length > 0
+    ? persons.filter(person => {
+      return person.name.toLowerCase().includes(filterText.toLowerCase())
+    })
+    : persons
 
   return (
     <div>
