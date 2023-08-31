@@ -4,7 +4,7 @@ import {
   create as createPerson,
   remove as deletePerson,
   update as changePerson
-} from './services/persons'
+} from './services/notes'
 import { PersonForm, PersonList, PersonSearch } from './Person.js'
 import { add as MessageAdd, error as MessageError } from './Notification.js'
 
