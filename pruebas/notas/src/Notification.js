@@ -4,7 +4,7 @@ export function error({ message }) {
   }
 
   return (
-    <div className="error">
+    <div className='error'>
       {message}
     </div>
   )
@@ -16,7 +16,7 @@ export function add({ message }) {
   }
 
   return (
-    <div className="msg-add">
+    <div className='msg-add'>
       {message}
     </div>
   )

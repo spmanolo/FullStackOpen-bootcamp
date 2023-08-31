@@ -2,13 +2,9 @@ import { useEffect, useState } from 'react'
 import { Note } from './Note.js'
 import { error as MessageError, add as MessageAdd } from './Notification.js'
 import { NoteForm } from './NoteForm.js'
-import { create as createNote, getAll as getAllNotes, update as changeNote } from './services/notes'
+import { create as createNote, getAll as getAllNotes, update as changeNote } from './services/notes.js'
 
 export default function App() {
-  // if (typeof notes === 'undefined' || notes.length === 0) {
-  //   return 'No tenemos notas que mostrar'
-  // }
-
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [loading, setLoading] = useState(false)
@@ -16,7 +12,7 @@ export default function App() {
   const [error, setError] = useState(false)
 
   function toggleImportanceOf(id) {
-    const note = notes.find(n => n.id == id)
+    const note = notes.find(n => n.id === id)
     const changedNote = { ...note, important: !note.important }
 
     changeNote(changedNote)
@@ -25,11 +21,11 @@ export default function App() {
       })
       .catch(error => {
         setError(true)
-        setNotMessage(`Note '${note.title}' was already removed from server`)
+        setNotMessage(`Note '${note.content}' was already removed from server`)
         setTimeout(() => {
           setNotMessage(null)
           setError(false)
-        }, 5000);
+        }, 5000)
       })
     setNotes(notes.filter(n => n.id !== id))
   }
@@ -46,23 +42,20 @@ export default function App() {
     event.preventDefault()
 
     const noteToAddToState = {
-      id: notes.length + 1,
-      title: newNote,
-      body: newNote,
-      important: Math.random() % 2
+      content: newNote
     }
 
     createNote(noteToAddToState)
       .then(newNote => {
         setNotes(prevNotes => prevNotes.concat(newNote))
         setError(false)
-        setNotMessage(`Note '${newNote.title}' has added to NOTES`)
+        setNotMessage(`Note '${newNote.content}' has added to NOTES`)
         setTimeout(() => {
           setNotMessage(null)
-        }, 5000);
+        }, 5000)
       })
 
-    setNewNote('')  // refrescar el searchbar
+    setNewNote('') // refrescar el searchbar
   }
 
   return (
@@ -71,10 +64,9 @@ export default function App() {
 
       {error
         ? <MessageError message={notMessage} />
-        : <MessageAdd message={notMessage} />
-      }
+        : <MessageAdd message={notMessage} />}
 
-      {loading ? "Cargando notas..." : ""}
+      {loading ? 'Cargando notas...' : ''}
 
       <NoteForm newNote={newNote} onNewNoteChange={setNewNote} handleSubmit={handleSubmit} />
 
