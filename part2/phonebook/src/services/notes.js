@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const URL = 'http://localhost:3001/api/persons/'
+const URL = '/api/persons/'
 
 export function getAll() {
   return axios
@@ -33,3 +33,4 @@ export function update(changedPerson) {
       return data
     })
 }
+
