@@ -54,7 +54,7 @@ export function Persons({ filterText, onFilterTextChange }) {
       })
       .catch(err => {   // manejar el error desde aqui y sin necesidad de verificar coincidencia
         setError(true)
-        setMessage(`'${newPersonToAdd.name}' is already added to phonebook`)
+        setMessage(err.response.data)
         setTimeout(() => {
           setMessage(null)
           setError(false)
@@ -81,7 +81,6 @@ export function Persons({ filterText, onFilterTextChange }) {
     //       }, 4000)
     //     })
     // }
-
   }
 
   function handleDeletePerson(id) {
